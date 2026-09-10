@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>서울 · 부산 열차 운행 조회</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='trains.js') }}" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">TRAIN PLAN</p>
+      <h1>서울 · 부산 열차 운행 조회</h1>
+      <p>출발역과 도착역, 여행할 날짜를 선택해 주세요.</p>
+    </header>
+    <form id="search-form" action="/api/trains" method="get">
+      <fieldset id="search-fields">
+        <legend class="sr-only">열차 조회 조건</legend>
+        <label for="departure">출발역
+          <select id="departure" name="departure" required>
+            <option value="서울">서울</option><option value="부산">부산</option>
+          </select>
+        </label>
+        <label for="arrival">도착역
+          <select id="arrival" name="arrival" required>
+            <option value="서울">서울</option><option value="부산" selected>부산</option>
+          </select>
+        </label>
+        <label for="date">조회 날짜
+          <input id="date" name="date" type="date" required>
+        </label>
+        <button id="search-button" type="submit">조회</button>
+      </fieldset>
+    </form>
+    <section id="results" aria-labelledby="results-title" aria-busy="false">
+      <h2 id="results-title">조회 결과</h2>
+      <p id="summary" hidden></p>
+      <p id="status" role="status" aria-live="polite">날짜를 선택하고 조회 버튼을 눌러 주세요.</p>
+      <p class="note">현재 제공되는 결과는 일부일 수 있어 하루 전체 운행정보와 다를 수 있습니다.</p>
+      <div id="table-wrap" class="table-wrap" hidden tabindex="0" role="region" aria-label="열차 운행정보 표">
+        <table>
+          <caption class="sr-only">선택한 구간과 날짜의 열차 운행정보</caption>
+          <thead><tr><th scope="col">열차번호</th><th scope="col">출발역</th><th scope="col">출발시간</th><th scope="col">도착역</th><th scope="col">도착시간</th></tr></thead>
+          <tbody id="train-rows"></tbody>
+        </table>
+      </div>
+    </section>
+    <noscript>조회 결과를 화면에서 보려면 JavaScript를 활성화해 주세요.</noscript>
+  </main>
+</body>
+</html>
