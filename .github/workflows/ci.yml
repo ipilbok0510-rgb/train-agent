@@ -27,8 +27,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Check app.py exists
+        run: test -f app.py
+
       - name: Check Python syntax
-        run: python -m compileall app.py
+        run: python -m py_compile app.py
 
       - name: Run tests
-        run: pytest -v
+        env:
+          PYTHONPATH: .
+        run: python -m pytest -v
